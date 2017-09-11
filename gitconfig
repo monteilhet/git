@@ -1,0 +1,43 @@
+[color]
+        ui = true
+[color.branch]
+        current = green bold
+        local = white bold
+        remote = red bold
+[color.status]
+        changed = magenta bold
+        added = green bold
+        untracked = cyan bold
+        branch = white bold
+[color "diff"]
+        meta = yellow bold
+        frag = magenta bold
+        old = red bold
+        new = green bold
+[merge]
+        tool = meld
+        conflictstyle = diff3
+[mergetool]
+        keepBackup = false
+[core]
+        editor = nano
+[alias]
+        st = status
+        ci = commit
+        co = checkout
+        us = reset HEAD
+        rv = checkout HEAD --
+        df = diff
+        dc = diff --cached
+        kf = difftool -y
+        kc = difftool -y --cached
+        lol = log --graph --decorate --pretty=oneline --abbrev-commit
+        last = !git --no-pager log -1 HEAD
+        lg = log --oneline --graph
+        head = !git --no-pager show -s --pretty='tformat:%h (%s, %ad)' --date=short
+[branch]
+        autosetuprebase = always
+[push]
+        default = upstream
+[http]
+        sslVerify = true
