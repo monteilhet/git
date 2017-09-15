@@ -13,7 +13,9 @@
  *  _.git/config_ config file in the git directory : Specific to that single repository
  ``` git config --list   ```
 
+
 ### credentials
+
 
 #### credential helper
 
@@ -102,6 +104,7 @@ git add -u
 
 ```
 
+
 ## Info
 
 
@@ -113,6 +116,7 @@ git --no-pager  diff --cached # index vs HEAD
 git --no-pager  diff HEAD # workspace & index vs HEAD
 git --no-pager  diff HEAD~ HEAD VERSION # show difference between two commits of a specific file use : git diff old-sha1 new-sha1 file
 ```
+
 ### diff using an external tool
 
 ```sh
@@ -127,7 +131,7 @@ git symbolic-ref HEAD
 cat .git/HEAD | cut -f2 -d' '
 ```
 
-### retrieve HEAD commit id
+### retrieve HEAD commit id
 
 ```bash
 git rev-parse --verify HEAD
@@ -140,14 +144,18 @@ cat .git/$(cat .git/HEAD| cut -f2 -d' ')
 
 ## submodule
 
+
+```bash
 git submodule add url dir
+```
+
 
 => add entry in .gitmodules
 [submodule "dir"]
 	path = dir
 	url = https://github.com/puppetlabs/puppetlabs-vcsrepo
 
-
+```bash
 cat .gitmodules
 
 
@@ -155,6 +163,7 @@ git submodule init
 git submodule update [--init]
 
 git submodule status
+```
 
 
 ## Plumbing
