@@ -14,10 +14,11 @@
  ``` git config --list   ```
 
 
-### credentials
+### Credentials
 
 
-#### credential helper
+#### Credential helper
+
 
 Turn on the credential helper so that Git will save your password in memory for some time. 
 
@@ -104,8 +105,7 @@ git add -u
 
 ```
 
-
-## Info
+## Info
 
 
 ### diff
