@@ -6,21 +6,20 @@
 
 3 different levels of configuration
 
- * _/etc/gitconfig_ : values for every user on the system
- ``` git config --list --system   ```
- * _~/.gitconfig_ : Specific to your user
-  ``` git config --list --global   ```
- *  _.git/config_ config file in the git directory : Specific to that single repository
- ``` git config --list   ```
+* _/etc/gitconfig_ : values for every user on the system
+ ```git config --list --system```
+* _~/.gitconfig_ : Specific to your user
+  ```git config --list --global```
+* _.git/config_ config file in the git directory : Specific to that single repository
+ ```git config --list```
 
 
-### Credentials
-
+### Credentials
 
 #### Credential helper
 
 
-Turn on the credential helper so that Git will save your password in memory for some time. 
+Turn on the credential helper so that Git will save your password in memory for some time.
 
 ```sh
 # Set git to use the credential memory cache
@@ -76,7 +75,7 @@ git config --global core.pager most
 git difftool -y -t meld
 ```
 
-*permanently*
+*permanently* configure merge tool
 
 ```sh
 git config --global merge.tool meld
