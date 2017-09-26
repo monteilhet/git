@@ -104,6 +104,24 @@ git add -u
 
 ```
 
+## Alias
+
+```
+ci = commit
+co = checkout
+dc = diff --cached
+df = diff
+head = !git --no-pager show -s --pretty='tformat:%h (%s, %ad)' --date=short
+kc = difftool -y --cached
+kf = difftool -y
+last = !git --no-pager log -1 HEAD
+lg = log --oneline --graph
+lol = log --graph --decorate --pretty=oneline --abbrev-commit
+rv = checkout HEAD --
+st = status
+us = reset HEAD
+```
+
 ## Info
 
 
