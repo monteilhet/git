@@ -21,6 +21,7 @@
         keepBackup = false
 [core]
         editor = nano
+        pager = most        
 [alias]
         st = status
         ci = commit
@@ -35,8 +36,9 @@
         last = !git --no-pager log -1 HEAD
         lg = log --oneline --graph
         head = !git --no-pager show -s --pretty='tformat:%h (%s, %ad)' --date=short
-[branch]
-        autosetuprebase = always
+        k = !gitk --all&
+[pull]
+        rebase = true
 [push]
         default = upstream
 [http]
