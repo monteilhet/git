@@ -101,7 +101,10 @@ git config --global mergetool.keepBackup false
 ### Setup
 
 ```sh
-#  clone the repository specified by <repo>
+# create a new empty repository
+git init
+
+# or clone the repository specified by <repo>
 git clone <repo>
 
 ```
@@ -148,7 +151,7 @@ git commit -m 'commit msg'
 #  automatically stage every file that is already tracked before doing the commit 
 git commit -a -m 'commit msg'
 
-# bypass pre-commit hook
+# bypass pre-commit hook : -n or --no-verify
 git commit --no-verify -m 'commit msg'
 
 ```
@@ -193,6 +196,18 @@ us = reset HEAD
 ```
 
 ## Info
+
+### log
+
+```sh
+git --no-pager log
+git --no-pager log -1 # the last one
+git --no-pager log --stat
+git --no-pager log --oneline
+git --no-pager log --oneline -p
+
+
+```
 
 
 ### diff

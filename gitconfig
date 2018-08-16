@@ -20,7 +20,7 @@
 [mergetool]
         keepBackup = false
 [core]
-        editor = nano
+        editor = vim
         pager = most        
 [alias]
         st = status
