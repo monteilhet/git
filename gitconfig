@@ -23,20 +23,24 @@
         editor = vim
         pager = most        
 [alias]
-        st = status
+        br = branch -av
         ci = commit
         co = checkout
-        us = reset HEAD
-        rv = checkout HEAD --
-        df = diff
         dc = diff --cached
-        kf = difftool -y
-        kc = difftool -y --cached
-        lol = log --graph --decorate --pretty=oneline --abbrev-commit
-        last = !git --no-pager log -1 HEAD
-        lg = log --oneline --graph
+        df = diff
         head = !git --no-pager show -s --pretty='tformat:%h (%s, %ad)' --date=short
         k = !gitk --all&
+        kc = difftool -y --cached
+        kf = difftool -y
+        last = !git --no-pager log -1 HEAD --stat
+        l = log --oneline --graph
+        la = log --oneline --graph --all
+        lob = log --first-parent --no-merges
+        lol = log --graph --pretty=oneline --abbrev-commit
+        rv = checkout HEAD --
+        s = status -bs
+        st = status
+        us = reset HEAD
 [pull]
         rebase = true
 [push]
