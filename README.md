@@ -14,9 +14,10 @@ Table of Contents
      * [Setup](#setup)
      * [Working directory and Staging](#working-directory-and-staging)
      * [Status](#show-status)
-     * [Commiting](#commiting)
+     * [Committing](#committing)
      * [Branching](#branching)
-     * [Merging & Rebasing](#merging-&-rebasing)
+     * [Merging](#merging)
+     * [Rebasing](#rebasing)
      * [Squashing](#squashing)
      * [Cherry picking](#cherry-picking)
      * [Merge conflicts](#merge-conflicts)
@@ -180,6 +181,13 @@ git config --system core.autocrlf true
 git config --system core.autocrlf input
 ```
 
+### Auto-correct settings
+
+```sh
+# enables automatic typo detection
+git config --system help.autocorrect 15
+```
+
 ## Basics
 
 ### Setup
@@ -248,6 +256,10 @@ git reset HEAD~ # <=> git extras : git undo
 # Remove the latest commit 
 git reset --hard HEAD~ # <=> git extras : git undo --hard
 
+# Revert some existing commits
+git revert HEAD --no-edit # use default commit message 'revert "<HEAD commit msg"'
+
+
 # Remove untracked files from the working tree
 git clean -n # dry run
 git clean -i # Interactive mode
@@ -266,7 +278,7 @@ git status -bs # show current branch with short desc
 git status -v # show status and patch index
 ```
 
-### Commiting
+### Committing
 
 ```sh
 # commit changes staged in index
@@ -415,6 +427,18 @@ git rebase branch_a
 
 If you treat rebasing as a way to clean up and work with commits **before** you push them, and if you only rebase commits that have never been available publicly, then you’ll be fine.
 
+### Fast fowarding merge
+
+```sh
+# tip determine if commit is ff
+if [ $(git merge-base $base $dest) == $(git rev-parse $base) ] ; then echo ff ; fi  
+
+# if commit is ff
+git checkout $base ; git merge $dest
+# <=>
+git rebase $dest $base
+```
+
 
 ### Cherry picking
 
@@ -431,17 +455,17 @@ git cherry-pick commit-id3
 ### Squashing
 
 ```sh
-# Takes all the work on the merged branch and squashes it into one non-merge commit on top of the branch you’re on.
+# Takes all the work on the specified branch and squashes it into one non-merge commit on top of the branch you’re on.
 git merge <branch_name_from> --squash # => then git commit 
 
 # Using git extras squash command
-git squash <branch_name_from> <commit-msg> # checkout a branch from which rebasing on
+git squash <branch_name_from> <commit-msg> # => checkout a branch from which rebasing on the squash commit
 git squash <commit-id> <commit-msg> # squash on the same branch
 
 # alternative use from HEAD position on current branch or a new branch : git reset --soft commit-id
 git reset --soft start-commit-id # then git commit
 
-# for the dumb
+# heavy way
 git rebase -i <commit-id> # rewrite history 
 git rebase --continue
 
@@ -599,6 +623,10 @@ git log HEAD~3
 git log --first-parent --no-merges HEAD
 ```
 
+```sh
+# git extras show-tree
+git show-tree
+```
 
 ### Show file content
 
@@ -649,6 +677,9 @@ git diff VERSION  # workspace vs index
 # differences between two branches :  all commits in experiment that aren’t in master 
 git diff master..experiment
 
+# differences between two tags
+git diff br/start..br/end
+
 # differences between a local branch and a remote branch : show all commits on remote branch not in local branch
 git diff master..origin/master
 ```
@@ -677,7 +708,7 @@ $ git remote -v
 # Add remote 
 $ git remote add [shortname] [url]
 
-# Add upstrem repo
+# Add upstream repo
 git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
 
 # <=> add following section in .git/config
@@ -739,7 +770,7 @@ git checkout dev
 # track a remote branch
 git branch --set-upstream-to=origin/master master # <=> -u origin/master master
 
-# remove local branch removed from remote
+# remove ref of remote branches removed from remote
 git remote prune origin 
 
 ```
@@ -752,7 +783,7 @@ git remote prune origin
 # push all local branches
 git push origin --all
 
-git push --set-upstream origin feature-A
+git push --set-upstream origin feature-A # <=> -u origin feature-A
 # <=> add following section in .git/config
 # [branch "dev"]
 # 	remote = origin
@@ -876,7 +907,7 @@ git update-index --chmod=+x 'name-of-shell-script'
 # save your local modifications to a new stash
 git stash
 # list all current stashes
-git --no-pager stash list
+git stash list
 # show the list of changes in the first stash
 git stash show stash@{0}
 # display patch of a specified stash
@@ -926,8 +957,11 @@ kf = difftool -y
 last = !git --no-pager log -1 HEAD --stat
 l = log --oneline --graph
 la = log --oneline --graph --all
-lob = log --first-parent --no-merges
+lob = log --oneline --first-parent
+lobo = log --oneline --first-parent --no-merges
 lol = log --graph --pretty=oneline --abbrev-commit
+pof = config core.pager ''
+pon = config --unset core.pager
 rv = checkout HEAD --
 s = status -bs
 st = status
@@ -1005,15 +1039,6 @@ git root
 ```
 
 
-```sh
-git show --format=raw commit-id
-
-git cat-file -t object-id
-
-git rev-list
-```
-
-
 ### reflog
 
 ```bash
@@ -1021,7 +1046,7 @@ git reflog
 git log -g
 ```
 
-### internals
+### Internals
 
 ```bash
 # objects store contains commit, tag, tree and blob objects
@@ -1032,7 +1057,7 @@ find .git/objects -name ${object_id:2}
 
 ```
 
-### Tips to retrieve last file content added to index
+#### Tips to retrieve last file content added to index
 
 ```bash
 objectid=$((find .git/objects -type f -print0 | xargs -0 ls -t | head -n 1) 2> /dev/null | awk -F/ '{ print $3 $4 }')
@@ -1047,3 +1072,16 @@ objectid=$((find .git/objects -type f -print0 | xargs -0 ls -t | head -n 1) 2> /
 git-cat file -p $objectid
 
 ```
+
+#### stored object types
+
+> Any object have a normalized format concatenating a header (`object_type size\0` with object_type =`blob|tree|commit|tag`) and original object data. This new content is used to calculate the object sha1 checksum, then compressed using zlib and stored in a file which name is based on checksum. 
+
+
+```sh
+git show --format=raw commit-id
+
+git cat-file -t object-id
+
+```
+
