@@ -1,0 +1,1 @@
+pandoc -o gitref.pdf README.md
