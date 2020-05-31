@@ -257,7 +257,7 @@ git reset HEAD~ # <=> git extras : git undo
 git reset --hard HEAD~ # <=> git extras : git undo --hard
 
 # Revert some existing commits
-git revert HEAD --no-edit # use default commit message 'revert "<HEAD commit msg"'
+git revert HEAD --no-edit # use default commit message 'revert "<HEAD commit msg"'
 
 
 # Remove untracked files from the working tree
@@ -297,7 +297,7 @@ git commit -a -m 'commit msg'
 git commit --no-verify -m 'commit msg'
 
 # amend the last commit : change the commit message, or modify some files => git add files
-git commit --amend # -m 'new commit message'
+git commit --amend # -m 'new commit message'
  # <=> to
 git reset --soft HEAD~ && git add some_files && git commit -m "new msg"
 # <=> git extras
@@ -318,7 +318,7 @@ git branch
 # <=> ls .git/refs/heads
 
 # retrieve current branch name
-git rev-parse --abbrev-ref HEAD # | sed "s#heads/##"  # Special case when tag and branch have the same name
+git rev-parse --abbrev-ref HEAD # | sed "s#heads/##"  # Special case when tag and branch have the same name
 git symbolic-ref --short HEAD # | sed "s#heads/##" 
 
 # list all local branches in verbose mode
@@ -362,7 +362,7 @@ git update-ref refs/heads/<branch> new_rev
 git checkout <branch>
 # => udpate HEAD pointer i.e. .git/HEAD content
 # <=>
-git symbolic-ref HEAD refs/heads/newbranch  # NB also update the working copy
+git symbolic-ref HEAD refs/heads/newbranch  # NB also update the working copy
 # <=>
 sed -i s/heads$/heads\/newbranch/ .git/HEAD && git reset --hard
 
@@ -372,7 +372,7 @@ git checkout -b <new> <start-point>
 git branch <new> <start-point>
 git checkout <new>
 
-# git extras - create-branch : create a new branch (local & remote) ; checkout this one and setup a tracking remote branch
+# git extras - create-branch : create a new branch (local & remote) ; checkout this one and setup a tracking remote branch
 git create-branch demo -r 
 # <=> git checkout -b demo ; git push --set-upstream origin demo
 # <=> git push origin HEAD:refs/heads/demo ; git checkout demo
@@ -435,7 +435,7 @@ if [ $(git merge-base $base $dest) == $(git rev-parse $base) ] ; then echo ff ; 
 
 # if commit is ff
 git checkout $base ; git merge $dest
-# <=>
+# <=>
 git rebase $dest $base
 ```
 
@@ -458,7 +458,7 @@ git cherry-pick commit-id3
 # Takes all the work on the specified branch and squashes it into one non-merge commit on top of the branch you’re on.
 git merge <branch_name_from> --squash # => then git commit 
 
-# Using git extras squash command
+# Using git extras squash command
 git squash <branch_name_from> <commit-msg> # => checkout a branch from which rebasing on the squash commit
 git squash <commit-id> <commit-msg> # squash on the same branch
 
@@ -544,13 +544,13 @@ cat .git/$(cat .git/HEAD| cut -f2 -d' ')
 #### Moving HEAD (=> move branch label)
 
 ```sh
-# Move head to the previous commit keeping HEAD modif in index & workspace
+# Move head to the previous commit keeping HEAD modif in index & workspace
 git reset --soft HEAD~
 
 # reset working copy
 git reset --hard  # implicitely HEAD
 
-# moving HEAD on another commit, and withdraw all commits after this one
+# moving HEAD on another commit, and withdraw all commits after this one
 git reset --hard commit-id 
 ```
 
@@ -596,7 +596,7 @@ git --no-pager log
 ```sh
 git log -1 # the last one
 <=>
-git show --no-patch HEAD  # <=> -s
+git show --no-patch HEAD  # <=> -s
 ```
 
 > Show details on the last commit
@@ -661,7 +661,7 @@ gitk README
 ```sh
 git diff # workspace vs index
 git diff --cached # index vs HEAD
-git diff HEAD # workspace & index vs HEAD
+git diff HEAD # workspace & index vs HEAD
 
 # NB --name-only can be used to show only changed files 
 ```
@@ -680,7 +680,7 @@ git diff master..experiment
 # differences between two tags
 git diff br/start..br/end
 
-# differences between a local branch and a remote branch : show all commits on remote branch not in local branch
+# differences between a local branch and a remote branch : show all commits on remote branch not in local branch
 git diff master..origin/master
 ```
 
@@ -708,7 +708,7 @@ $ git remote -v
 # Add remote 
 $ git remote add [shortname] [url]
 
-# Add upstream repo
+# Add upstream repo
 git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
 
 # <=> add following section in .git/config
